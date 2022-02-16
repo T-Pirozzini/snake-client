@@ -7,17 +7,28 @@ const connect = function () {
     port: 50541,
   });
 
-  // interpret incoming data as text
-  conn.setEncoding("utf8");
-
-  conn.on("data", () => {
-    console.log("New Player is idle");
+  // connect to server
+  conn.on("connect", (connect) => {
+    console.log("New Player connected to Game Server");
   });
+
+  // name your snake
+  conn.on("connect", () => {
+    conn.write(`Name: TSP`);
+  });
+
+  // handle incoming data
+  conn.on("data", (data) => {
+    console.log(data);
+  });  
+
+  // interpret incoming data as text
+  conn.setEncoding("utf8");  
 
   return conn;
 };
 
-console.log("Connecting ...");
+
 connect();
 
 
